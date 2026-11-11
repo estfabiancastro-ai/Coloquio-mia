@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Coloquio de Investigación | Universidad de La Salle</title>
+
+<style>
+:root {
+    --blue: #003057;
+    --blue2: #00495E;
+    --gold: #F2A900;
+    --light: #f3f6fa;
+    --text: #25384d;
+    --muted: #6d7f90;
+    --card: #ffffff;
+    --line: #e4eaf0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--light);
+    color: var(--text);
+}
+
+/* ---------- ENCABEZADO ---------- */
+.brand-bar {
+    background: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(90deg, #F2A900, #F26B38, #D6336C, #7A4FD6, #1E88E5, #00A19B) 1;
+}
+.brand-bar img { width: 190px; max-width: 65%; height: auto; }
+.faculty {
+    text-align: right; color: var(--blue2);
+    border-left: 3px solid var(--gold); padding-left: 15px;
+    font-weight: 700; font-size: 13px; letter-spacing: 1px;
+}
+.faculty span { display: block; color: #788695; font-weight: 400; letter-spacing: 0; }
+
+/* ---------- PORTADA ---------- */
+.hero {
+    min-height: 600px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(circle at 82% 30%, rgba(0,169,224,.35), transparent 32%),
+      radial-gradient(circle at 12% 90%, rgba(214,51,108,.22), transparent 30%),
+      radial-gradient(circle at 60% 100%, rgba(242,169,0,.18), transparent 28%),
+      linear-gradient(125deg, #00182d, #003057 65%, #00495E);
+    display: flex; align-items: center; padding: 70px 8%; color: white;
+}
+.hero::before {
+    content: "AI"; position: absolute; right: 3%; top: 0;
+    font-size: 390px; font-weight: 900; color: rgba(255,255,255,.035); line-height: 1;
+}
+.hero::after {
+    content: ""; position: absolute; width: 500px; height: 500px;
+    border: 1px solid rgba(255,255,255,.09); border-radius: 50%;
+    right: -100px; bottom: -300px;
+    box-shadow: 0 0 0 50px rgba(255,255,255,.025), 0 0 0 100px rgba(255,255,255,.02);
+}
+.orb { position: absolute; border-radius: 50%; filter: blur(2px); opacity: .55; animation: float 9s ease-in-out infinite; }
+.orb.o1 { width: 16px; height: 16px; background: #F2A900; top: 18%; right: 22%; }
+.orb.o2 { width: 10px; height: 10px; background: #00A9E0; top: 62%; right: 12%; animation-delay: -3s; }
+.orb.o3 { width: 22px; height: 22px; background: #D6336C; top: 35%; right: 40%; animation-delay: -6s; opacity: .35; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-22px); } }
+
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+.eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: 4px; font-size: 13px; font-weight: 800; }
+.hero h1 { font-size: clamp(45px,7vw,82px); line-height: 1.02; margin: 25px 0 15px; letter-spacing: -2px; }
+.hero h1 span {
+    background: linear-gradient(90deg, #F2A900, #FF8A4C, #FF5E8A);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.subtitle { font-size: clamp(18px,3vw,25px); color: #d8e6f1; margin-bottom: 28px; }
+.quote {
+    max-width: 700px; border-left: 4px solid var(--gold); padding: 12px 20px;
+    font-size: 17px; font-style: italic; line-height: 1.7; color: #e9f0f7; margin: 28px 0;
+}
+.event-details { display: flex; flex-wrap: wrap; gap: 13px; margin: 30px 0 20px; }
+.detail {
+    padding: 13px 19px; background: rgba(255,255,255,.09);
+    border: 1px solid rgba(255,255,255,.18); border-radius: 9px; font-size: 14px;
+    backdrop-filter: blur(4px);
+}
+
+/* cuenta regresiva */
+.countdown { display: flex; gap: 10px; flex-wrap: wrap; margin: 6px 0 24px; align-items: stretch; }
+.cd-box {
+    min-width: 74px; text-align: center; padding: 12px 10px; border-radius: 12px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16);
+}
+.cd-box b { display: block; font-size: 28px; line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+.cd-box small { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #b9cbd9; }
+.cd-live {
+    display: none; align-items: center; gap: 10px; padding: 14px 20px; border-radius: 12px;
+    background: rgba(255,60,90,.18); border: 1px solid rgba(255,90,120,.5); font-weight: 800; letter-spacing: 1px;
+}
+.cd-done { display: none; padding: 14px 20px; border-radius: 12px; background: rgba(255,255,255,.1); font-weight: 700; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #ff3b5c; animation: pulse 1.3s infinite; display: inline-block; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,59,92,.7); } 70% { box-shadow: 0 0 0 12px rgba(255,59,92,0); } 100% { box-shadow: 0 0 0 0 rgba(255,59,92,0); } }
+
+.join-button {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 15px; padding: 17px 27px;
+    background: var(--gold); color: var(--blue); border-radius: 8px; text-decoration: none;
+    font-size: 14px; font-weight: 900; letter-spacing: .5px; box-shadow: 0 8px 25px rgba(0,0,0,.2); transition: .3s;
+}
+.join-button:hover { background: white; transform: translateY(-4px); }
+.join-note { font-size: 12px; color: #b9cbd9; margin-top: 12px; }
+
+/* ---------- ESTADÍSTICAS ---------- */
+.stats {
+    max-width: 1000px; margin: -48px auto 0; position: relative; z-index: 5;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 0 20px;
+}
+.stat {
+    background: white; border-radius: 14px; padding: 18px 16px; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,35,65,.12); border-top: 4px solid var(--c);
+}
+.stat b { display: block; font-size: 34px; color: var(--c); line-height: 1.1; }
+.stat span { font-size: 12px; color: var(--muted); letter-spacing: .5px; }
+
+/* ---------- CONTENIDO ---------- */
+.container { max-width: 1150px; margin: auto; padding: 70px 25px 30px; }
+.section-title { text-align: center; margin-bottom: 35px; }
+.section-title small { color: #b17a00; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+.section-title h2 { color: var(--blue); font-size: 35px; margin: 10px 0; }
+.section-title p { color: #788797; max-width: 650px; margin: auto; }
+
+/* herramientas */
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 22px; }
+.search {
+    flex: 1 1 280px; position: relative;
+}
+.search input {
+    width: 100%; padding: 13px 16px 13px 42px; border: 1px solid #d3dde7; border-radius: 30px;
+    font-size: 14px; background: white; color: var(--text); outline: none; transition: .2s;
+}
+.search input:focus { border-color: #00A9E0; box-shadow: 0 0 0 4px rgba(0,169,224,.15); }
+.search::before { content: "🔍"; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+    border: 1px solid #d3dde7; background: white; color: var(--blue); padding: 9px 15px;
+    border-radius: 30px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: .2s; font-family: inherit;
+}
+.chip:hover { transform: translateY(-2px); }
+.chip.active { background: var(--blue); color: white; border-color: var(--blue); }
+.chip.pir.active { background: #F26B38; border-color: #F26B38; }
+.chip.ta.active { background: #00A19B; border-color: #00A19B; }
+.ghost { font-weight: 600; color: var(--muted); }
+
+/* ---------- AGENDA ---------- */
+.agenda { display: flex; flex-direction: column; gap: 14px; }
+
+.agenda-item {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    display: grid; grid-template-columns: 150px 1fr; overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0,35,65,.04); transition: box-shadow .25s, transform .25s, border-color .25s;
+    position: relative;
+}
+.agenda-item:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,35,65,.09); }
+.agenda-item.hidden { display: none; }
+.agenda-item.live { border-color: #ff3b5c; box-shadow: 0 0 0 3px rgba(255,59,92,.18), 0 10px 25px rgba(0,35,65,.1); }
+.agenda-item.live::after {
+    content: "● EN VIVO"; position: absolute; top: 12px; right: 14px;
+    background: #ff3b5c; color: white; font-size: 10px; font-weight: 800; letter-spacing: 1px;
+    padding: 4px 9px; border-radius: 20px;
+}
+
+.agenda-time {
+    background: #eaf1f6; color: var(--blue); display: flex; flex-direction: column;
+    justify-content: center; padding: 20px; font-weight: 800; font-size: 15px;
+}
+.agenda-time span { color: #8091a0; font-size: 11px; margin-top: 5px; font-weight: 500; }
+
+.project .agenda-time {
+    background: linear-gradient(160deg, var(--accent), var(--accent2));
+    color: white;
+}
+.project .agenda-time span { color: rgba(255,255,255,.8); }
+
+.agenda-content { padding: 0; min-width: 0; }
+.head {
+    all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer;
+    padding: 20px 56px 14px 25px; position: relative;
+}
+.head:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 10px; }
+.plain-head { padding: 20px 25px; }
+
+.number { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--accent, #a87800); font-size: 11px; letter-spacing: 1.5px; font-weight: 900; }
+.tag {
+    font-size: 10px; letter-spacing: .5px; padding: 3px 9px; border-radius: 20px; font-weight: 800;
+    background: color-mix(in srgb, var(--accent) 14%, white); color: var(--accent);
+}
+.tag.pir { background: #fff0e8; color: #c24a13; }
+.tag.ta { background: #e2f6f5; color: #00756f; }
+
+.agenda-content h3 { color: var(--blue); font-size: 17px; line-height: 1.45; margin: 8px 0 10px; }
+.hint { font-size: 12px; color: var(--accent); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; }
+.arrow {
+    position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+    width: 30px; height: 30px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 14%, white);
+    color: var(--accent); display: grid; place-items: center; font-size: 14px; transition: transform .3s;
+}
+.agenda-item.open .arrow { transform: translateY(-50%) rotate(180deg); background: var(--accent); color: white; }
+.agenda-item.open .hint .t-open { display: none; }
+.agenda-item:not(.open) .hint .t-close { display: none; }
+
+/* participantes */
+.authors { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.person {
+    display: inline-flex; align-items: center; gap: 8px; padding: 4px 13px 4px 4px;
+    background: color-mix(in srgb, var(--accent) 9%, white); border: 1px solid color-mix(in srgb, var(--accent) 28%, white);
+    border-radius: 30px; font-size: 13px; font-weight: 700; color: #1d3a55;
+}
+.avatar {
+    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--accent); color: white; font-size: 11px; font-weight: 800;
+}
+.line { color: #7a8794; font-size: 12px; margin-top: 5px; }
+
+/* panel desplegable */
+.panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s ease; }
+.agenda-item.open .panel { grid-template-rows: 1fr; }
+.panel-inner { overflow: hidden; }
+.panel-body {
+    margin: 0 25px 22px; padding: 20px 22px; border-radius: 12px;
+    background: color-mix(in srgb, var(--accent) 5%, white);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, white);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 26px;
+}
+.panel-body h4 {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.panel-body h4::before { content: ""; width: 18px; height: 3px; border-radius: 3px; background: var(--accent); }
+.panel-body p { font-size: 14px; line-height: 1.7; margin-bottom: 10px; color: #33485c; }
+.panel-body .gen { font-weight: 600; color: var(--blue); }
+.panel-body ol { padding-left: 0; list-style: none; counter-reset: o; margin-top: 12px; }
+.panel-body li {
+    counter-increment: o; font-size: 13.5px; line-height: 1.6; color: #33485c;
+    position: relative; padding: 0 0 10px 34px;
+}
+.panel-body li::before {
+    content: counter(o); position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); color: white; font-size: 11px; font-weight: 800; display: grid; place-items: center;
+}
+.sub { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 800; margin-top: 14px; }
+.note { font-size: 12px; color: var(--muted); font-style: italic; }
+.meta-row {
+    grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px;
+    border-top: 1px dashed color-mix(in srgb, var(--accent) 35%, white);
+}
+.meta-chip { font-size: 12px; background: white; border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; color: #4a6074; }
+.meta-chip b { color: var(--blue); }
+
+.special { border-left: 4px solid var(--gold); }
+.break { background: #fdf8eb; border: 1px solid #f0dfb2; }
+.dialogo { border-left: 4px solid #7A4FD6; }
+.dialogo .number { color: #7A4FD6; }
+
+.empty { display: none; text-align: center; padding: 40px; color: var(--muted); }
+
+/* ---------- PARTICIPANTES / SEGUIMIENTO ---------- */
+.people-wrap { max-width: 1150px; margin: 0 auto; padding: 40px 25px 70px; }
+.people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
+.pcard {
+    background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px;
+    display: flex; gap: 14px; align-items: flex-start; cursor: pointer; text-align: left; font-family: inherit;
+    border-left: 5px solid var(--accent); transition: .25s; box-shadow: 0 4px 14px rgba(0,35,65,.04); width: 100%;
+    color: var(--text);
+}
+.pcard:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,35,65,.1); }
+.pcard .avatar { width: 44px; height: 44px; font-size: 15px; flex: none; }
+.pcard h5 { font-size: 14.5px; color: var(--blue); line-height: 1.3; }
+.pcard .pj { font-size: 12px; color: var(--accent); font-weight: 800; margin: 3px 0; }
+.pcard .pt { font-size: 12px; color: var(--muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.badge { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+.badge.ok { background: #e3f6e8; color: #1c7a37; }
+.badge.co { background: #eef1f5; color: #5d6f80; }
+.badge.date { background: #fff4d6; color: #8a6200; }
+.badge.ver { background: #ece6fb; color: #5b36b3; }
+
+/* ---------- CIERRE ---------- */
+.invitation-footer { background: linear-gradient(120deg,#001c35,#003057); text-align: center; padding: 65px 20px; color: white; }
+.invitation-footer h2 { color: var(--gold); font-size: 31px; margin-bottom: 15px; }
+.invitation-footer p { color: #d4e2ed; line-height: 1.8; }
+.footer-brand { margin-top: 30px; color: #c2d2df; font-size: 13px; letter-spacing: 1px; }
+.footer-brand strong { color: white; }
+
+.floating-button {
+    position: fixed; bottom: 22px; right: 22px; z-index: 10; background: var(--gold); color: var(--blue);
+    text-decoration: none; padding: 14px 20px; border-radius: 40px; font-size: 13px; font-weight: 900;
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width: 780px) {
+    .panel-body { grid-template-columns: 1fr; margin: 0 14px 18px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 650px) {
+    .brand-bar { justify-content: center; }
+    .faculty { text-align: center; border-left: none; border-top: 2px solid var(--gold); padding: 10px 0 0; }
+    .hero { min-height: auto; padding: 65px 23px 80px; }
+    .hero h1 { font-size: 48px; }
+    .hero::before { font-size: 200px; right: -30px; top: 30px; }
+    .agenda-item { grid-template-columns: 1fr; }
+    .agenda-time { padding: 12px 18px; flex-direction: row; justify-content: space-between; align-items: center; }
+    .head { padding: 16px 54px 12px 18px; }
+    .plain-head { padding: 16px 18px; }
+    .container { padding: 50px 17px 20px; }
+    .section-title h2 { font-size: 28px; }
+    .agenda-item.live::after { top: auto; bottom: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- IMPRESIÓN: todo desplegado ---------- */
+@media print {
+    .floating-button, .join-button, .toolbar, .arrow, .hint, .countdown { display: none; }
+    .hero, .invitation-footer, .project .agenda-time { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .agenda-item { break-inside: avoid; box-shadow: none; }
+    .panel { grid-template-rows: 1fr !important; }
+    body { background: white; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="brand-bar">
+    <img src="logo.png" alt="Universidad de La Salle">
+    <div class="faculty">
+        FACULTAD DE INGENIERÍA
+        <span>Maestría en Inteligencia Artificial</span>
+    </div>
+</header>
+
+<section class="hero">
+    <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+    <div class="hero-content">
+        <div class="eyebrow">Invitación especial · Encuentro académico 2026</div>
+
+        <h1>I COLOQUIO<br>DE <span>INVESTIGACIÓN</span></h1>
+
+        <div class="subtitle">Maestría en Inteligencia Artificial<br>Universidad de La Salle</div>
+
+        <div class="quote">
+            “La investigación no solo busca respuestas;
+            también nos invita a formular mejores preguntas
+            para transformar el mundo”.
+        </div>
+
+        <div class="event-details">
+            <div class="detail">📅 Viernes, 20 de noviembre de 2026</div>
+            <div class="detail">🕔 5:00 p. m. – 8:00 p. m.</div>
+            <div class="detail">💻 Modalidad 100 % virtual</div>
+        </div>
+
+        <div class="countdown" id="countdown" aria-live="polite">
+            <div class="cd-box"><b id="cd-d">--</b><small>días</small></div>
+            <div class="cd-box"><b id="cd-h">--</b><small>horas</small></div>
+            <div class="cd-box"><b id="cd-m">--</b><small>min</small></div>
+            <div class="cd-box"><b id="cd-s">--</b><small>seg</small></div>
+            <div class="cd-live" id="cd-live"><span class="dot"></span> EL COLOQUIO ESTÁ EN VIVO</div>
+            <div class="cd-done" id="cd-done">El I Coloquio ya finalizó. ¡Gracias por participar!</div>
+        </div>
+
+        <a class="join-button" href="https://teams.microsoft.com/meet/252270209695249?p=oCJ9HIIVL8RPfWwIZW" target="_blank" rel="noopener">
+            ▶ INGRESAR AL COLOQUIO VIRTUAL
+        </a>
+        <div class="join-note">Acceso virtual mediante Microsoft Teams · Un único enlace para todos los asistentes</div>
+    </div>
+</section>
+
+<div class="stats" id="stats"></div>
+
+<main class="container" id="agenda-top">
+
+    <div class="section-title">
+        <small>Programa académico</small>
+        <h2>Agenda del encuentro</h2>
+        <p>
+            Haz clic en el título de cada proyecto para ver su resumen y sus objetivos.
+        </p>
+    </div>
+
+    <div class="toolbar">
+        <div class="search">
+            <input id="q" type="search" placeholder="Buscar por título o participante…" aria-label="Buscar proyecto o participante">
+        </div>
+        <div class="chips" id="filters">
+            <button class="chip active" data-f="all">Todos</button>
+            <button class="chip pir" data-f="PIR">Producción investigativa (PIR)</button>
+            <button class="chip ta" data-f="TA">Trabajo aplicado</button>
+        </div>
+        <div class="chips">
+            <button class="chip ghost" id="expand">Expandir todo</button>
+            <button class="chip ghost" id="collapse">Contraer todo</button>
+        </div>
+    </div>
+
+    <section class="agenda" id="agenda"></section>
+    <div class="empty" id="empty">No se encontraron proyectos con ese criterio.</div>
+</main>
+
+<section class="people-wrap" id="participantes">
+    <div class="section-title">
+        <small>Participantes</small>
+        <h2>Quiénes presentan</h2>
+        <p>Haz clic en una persona para ir a su proyecto.</p>
+    </div>
+    <div class="people-grid" id="people"></div>
+</section>
+
+<footer class="invitation-footer">
+    <h2>El conocimiento se construye compartiendo.</h2>
+    <p>
+        Te invitamos a ser parte de este espacio de encuentro,
+        reflexión y construcción colectiva de conocimiento.
+        <br>Tu participación es fundamental.
+    </p>
+    <a class="join-button" href="https://teams.microsoft.com/meet/252270209695249?p=oCJ9HIIVL8RPfWwIZW" target="_blank" rel="noopener">
+        INGRESAR A MICROSOFT TEAMS
+    </a>
+    <div class="footer-brand">
+        <strong>UNIVERSIDAD DE LA SALLE</strong><br>
+        Facultad de Ingeniería<br>
+        Maestría en Inteligencia Artificial<br><br>
+        I Coloquio de Investigación · 2026
+    </div>
+</footer>
+
+<a class="floating-button" href="https://teams.microsoft.com/meet/252270209695249?p=oCJ9HIIVL8RPfWwIZW" target="_blank" rel="noopener">▶ Unirse al evento</a>
+
+<script>
+/* =====================================================
+   DATOS (tomados del CSV de seguimiento; se usa el envío
+   más reciente cuando un estudiante envió dos versiones)
+   authors: [nombre, registróFormulario]
+   ===================================================== */
+const DAY = '2026-11-20';
+const TZ = '-05:00';
+
+const PROJECTS = [
+  {
+    n: 1, s: '17:10', e: '17:25', line: 'PIR', accent: '#F26B38', accent2: '#FF9A5C',
+    title: 'Modelos de extracción de información y de lenguaje (LLM) para determinar retenciones e impuestos y reducir la validación manual antes de contabilizar facturas de cuentas por pagar bajo la normativa tributaria colombiana',
+    authors: [['Samuel Andres Cubillos Carantonio', true]],
+    meet: '2026-10-21', versions: 2,
+    resumen: [
+      'Este proyecto aborda las limitaciones de un sistema de automatización robótica de procesos (RPA) que actualmente contabiliza cuentas por pagar (CxP) en producción, procesando entre 4.400 y 5.000 facturas mensuales. Aunque el sistema funciona de forma estable para el flujo estándar, excluye por completo cerca del 10% de las facturas que llegan sin orden de compra, y requiere que un usuario funcional valide manualmente, en el 100% de los casos, las retenciones e impuestos aplicables antes de contabilizar cada documento.',
+      'Esta investigación busca establecer en qué medida un modelo de extracción de información, entrenado para leer facturas sin orden de compra, y un modelo de lenguaje (LLM), capaz de determinar automáticamente las retenciones e impuestos según la normativa tributaria colombiana, permiten reducir el porcentaje de facturas que deben validarse manualmente antes de contabilizarlas.',
+      'Metodológicamente, el estudio sigue un enfoque cuantitativo-experimental: se construyen dos conjuntos de datos sintéticos —uno de facturas, en tres variantes de formato (PDF editable, no editable y escaneado), y otro de casos tributarios basado en las reglas del Estatuto Tributario colombiano—. Se espera evidenciar una disminución medible de la intervención humana en el proceso, un vacío escasamente abordado en la literatura actual.'
+    ],
+    general: 'Incorporar un modelo de extracción de información entrenado para leer facturas sin orden de compra, junto con un modelo de lenguaje (LLM) para determinar automáticamente las retenciones e impuestos aplicables según la normativa tributaria colombiana, a un sistema de automatización robótica de procesos (RPA) de contabilización de cuentas por pagar en producción, evaluando su efecto sobre el porcentaje de facturas que un usuario funcional debe validar manualmente antes de contabilizarlas.',
+    specific: [
+      'Caracterizar el proceso actual de contabilización de cuentas por pagar del sistema RPA en producción, identificando los puntos de intervención manual asociados a la ausencia de orden de compra y a la validación tributaria.',
+      'Diseñar un modelo de extracción de información capaz de identificar los datos clave de facturas sin orden de compra (proveedor, fecha, valor, concepto), midiendo su desempeño mediante métricas de exactitud sobre el dataset sintético.',
+      'Diseñar un modelo de lenguaje (LLM) que determine automáticamente las retenciones e impuestos aplicables a cada factura según las reglas del Estatuto Tributario colombiano, midiendo su desempeño frente a los casos definidos en el dataset sintético.',
+      'Integrar los dos modelos desarrollados al flujo del sistema RPA existente, midiendo su efecto sobre el porcentaje de facturas que un usuario funcional debe validar manualmente, la precisión de la extracción de información y la precisión de la clasificación tributaria.'
+    ]
+  },
+  {
+    n: 2, s: '17:25', e: '17:40', line: 'TA', accent: '#1E88E5', accent2: '#4FB3FF',
+    title: 'Asistente inteligente basado en inteligencia artificial multimodal para la consulta del Código Nacional de Tránsito Terrestre de Colombia',
+    authors: [['Sergio Alejandro Peñaloza Gelves', true]],
+    meet: '2026-10-08', versions: 2,
+    resumen: [
+      'El presente proyecto propone desarrollar un asistente inteligente basado en inteligencia artificial multimodal para responder consultas sobre el Código Nacional de Tránsito Terrestre de Colombia. La propuesta aborda la dificultad para obtener respuestas precisas, pertinentes y sustentadas en fuentes normativas, especialmente cuando las consultas requieren relacionar disposiciones legales con situaciones descritas mediante texto e imágenes.',
+      'La investigación se desarrollará en cuatro etapas: análisis de la literatura sobre IA aplicada a la consulta de normativas; diseño de una arquitectura basada en modelos de lenguaje de gran tamaño y mecanismos de recuperación de información normativa; implementación de un prototipo que procese consultas multimodales y genere respuestas con referencias verificables; y evaluación de las respuestas mediante juicio de expertos.',
+      'Resultados esperados: una arquitectura documentada, un prototipo funcional y evidencia sobre su desempeño y limitaciones.'
+    ],
+    keywords: 'inteligencia artificial multimodal, modelos de lenguaje de gran tamaño, recuperación de información, consulta normativa, Código Nacional de Tránsito Terrestre',
+    general: 'Desarrollar un asistente basado en inteligencia artificial multimodal para responder consultas sobre el Código Nacional de Tránsito Terrestre de Colombia, evaluando la precisión, la pertinencia y el sustento normativo de sus respuestas mediante juicio de expertos.',
+    specific: [
+      'Analizar la literatura sobre el uso de inteligencia artificial en la consulta de normativas, con énfasis en el contexto colombiano, identificando enfoques, capacidades y limitaciones relevantes para el desarrollo del asistente.',
+      'Diseñar una arquitectura computacional basada en modelos de lenguaje de gran tamaño (LLM), con capacidades multimodales y mecanismos de recuperación de información normativa, para responder consultas sobre el Código Nacional de Tránsito Terrestre de Colombia.',
+      'Implementar un prototipo del asistente inteligente a partir de la arquitectura diseñada, integrando el procesamiento de consultas multimodales y la generación de respuestas sustentadas en fuentes normativas.',
+      'Evaluar, mediante juicio de expertos, la precisión, la pertinencia y el sustento normativo de las respuestas generadas por el prototipo ante un conjunto definido de consultas sobre el Código Nacional de Tránsito Terrestre de Colombia.'
+    ]
+  },
+  {
+    n: 3, s: '17:40', e: '17:55', line: 'TA', accent: '#00A19B', accent2: '#3ED6CE',
+    title: 'EmprendIA',
+    authors: [['Andres Peña Ramos', true]],
+    meet: '2026-10-05', versions: 1,
+    resumen: [
+      'El proyecto consiste en el desarrollo de una plataforma web integral diseñada para potenciar el ecosistema de emprendimiento en Colombia. La solución centraliza la validación, estructuración y escalabilidad de ideas de negocio mediante el uso de múltiples agentes de Inteligencia Artificial (IA) especializados.'
+    ],
+    general: 'Desarrollar una plataforma web integral basada en un sistema de múltiples agentes de Inteligencia Artificial para automatizar la evaluación, el perfilamiento y la mentoría estratégica de ideas de emprendimiento en Colombia.',
+    specific: [
+      'Implementar un núcleo de agentes de Inteligencia Artificial mediante modelos de procesamiento de lenguaje natural para evaluar la viabilidad inicial y perfilar las ideas de negocio ingresadas por los usuarios.',
+      'Diseñar un módulo de mentoría colaborativa que trace hojas de ruta estratégicas personalizadas y sugiera caminos específicos según la madurez del proyecto.',
+      'Integrar un centro de formación (LMS) y una zona analítica con gestión de datasets y cálculo automático de KPIs para el seguimiento del desarrollo empresarial.',
+      'Validar el rendimiento del sistema multi-agente y la precisión de las recomendaciones evaluando la satisfacción de los usuarios y la efectividad en la vitrina de inversión frente a grupos de control o métricas base.'
+    ]
+  },
+  {
+    n: 4, s: '17:55', e: '18:10', line: 'TA', accent: '#43A047', accent2: '#7BD67F',
+    title: 'Sistema Predictivo de Volatilidad de Precios en Centrales de Abastos (Corabastos) para la Optimización de Cosechas en la Agricultura Familiar',
+    authors: [['Lida Esperanza García Quintero', true], ['Henry Alfonso Palma Rojas', false]],
+    meet: '2026-10-01', versions: 1,
+    resumen: [
+      'La agricultura familiar en Colombia enfrenta pérdidas económicas debido a la volatilidad de los precios agrícolas y la falta de herramientas para anticipar las condiciones del mercado. El proyecto propone desarrollar un sistema predictivo que estime el comportamiento futuro de los precios de productos comercializados en Corabastos, utilizando datos históricos del Sistema de Información de Precios y Abastecimiento del Sector Agropecuario (SIPSA) y calendarios de siembra.',
+      'El modelo integrará técnicas de series de tiempo y algoritmos de Random Forest para generar pronósticos de tres a seis meses, permitiendo a los productores planificar sus siembras, reducir riesgos de sobreoferta y mejorar la rentabilidad y sostenibilidad de sus cultivos.'
+    ],
+    general: 'Desarrollar un sistema predictivo de volatilidad de precios agrícolas en Corabastos, utilizando datos históricos del Sistema de Información de Precios y Abastecimiento del Sector Agropecuario (SIPSA) y técnicas de aprendizaje automático, para estimar precios futuros entre tres y seis meses y apoyar la toma de decisiones de siembra en la agricultura familiar.',
+    specific: []
+  },
+  {
+    n: 5, s: '18:10', e: '18:25', line: 'PIR', accent: '#D6336C', accent2: '#FF6F9C',
+    title: 'Prototipo de software inteligente basado en modelos LLM para el apoyo a la facturación electrónica en MiPymes colombianas',
+    authors: [['Sebastian Contreras Gómez', true]],
+    meet: '2026-10-07', versions: 1,
+    resumen: [
+      'La facturación electrónica ha representado un avance importante para la modernización tributaria y la digitalización de las empresas en Colombia. Aun así, que exista una obligación normativa no implica que su adopción, apropiación y uso sean iguales en todas las empresas. Esta diferencia es importante en las MiPymes, ya que muchas cuentan con menos recursos tecnológicos, económicos y humanos para incorporar nuevas herramientas y adaptar sus procesos internos.',
+      'La documentación revisada muestra que estas dificultades siguen presentes: Celis Murcia et al. (2025) reportaron que solo el 23 % de los microempresarios de la comuna dos de Neiva había incorporado la facturación electrónica, y González Cuspoca et al. (2023) encontraron empresas ferreteras de Duitama sin sistema de facturación electrónica por costos, desconocimiento o falta de apropiación.',
+      'Además de la adopción inicial, existen retos durante el uso y mantenimiento de estas soluciones: el problema no se limita a disponer de un software, sino a que el usuario comprenda el proceso, pueda utilizarlo de forma adecuada y lo incorpore a sus actividades habituales.'
+    ],
+    note: 'Resumen parcial: la justificación completa se encuentra en el anteproyecto.',
+    general: 'Desarrollar un prototipo de software basado en inteligencia artificial, mediante el uso de modelos LLM, como herramienta de apoyo al proceso de facturación electrónica en las MiPymes en Colombia.',
+    specific: [
+      'Recopilar ejemplos de información relacionada con la facturación electrónica en diferentes formatos y estructuras, como documentos, imágenes, mensajes de texto en lenguaje natural y audio, para el diseño y evaluación de la solución.',
+      'Identificar los modelos de inteligencia artificial multimodales LLM más apropiados para el procesamiento de información relacionada con facturación electrónica.',
+      'Implementar un prototipo de software basado en inteligencia artificial que permita procesar información de facturación electrónica e interactuar con los usuarios mediante canales o aplicaciones de uso cotidiano.',
+      'Evaluar la contribución del prototipo al proceso de facturación electrónica a partir de criterios de precisión en el procesamiento de la información, tiempo de ejecución y facilidad de uso.'
+    ]
+  },
+  {
+    n: 6, s: '18:25', e: '18:40', line: 'TA', accent: '#8E5BE8', accent2: '#B590FF',
+    title: 'Detección y clasificación automática de enfermedades foliares en cultivos de Café mediante Redes Neuronales Convolucionales (CNN)',
+    authors: [['Ronald Andres Garcia Diaz', false], ['Juan Camilo Narváez Sánchez', true], ['Adrian Felipe Deulofeut Gil', false]],
+    meet: '2026-10-13', versions: 1,
+    resumen: [
+      'El cultivo de café constituye uno de los renglones productivos más importantes para la economía agrícola colombiana; sin embargo, las enfermedades foliares —como la roya (Hemileia vastatrix), la mancha de hierro y la antracnosis— reducen de manera significativa el rendimiento y la calidad de la cosecha. Su diagnóstico tradicional depende de la inspección visual de un agrónomo, un procedimiento lento, subjetivo y difícilmente escalable.',
+      'La propuesta adopta un enfoque cuantitativo, aplicado y experimental en cuatro fases: recolección y preprocesamiento de imágenes; entrenamiento de al menos dos arquitecturas mediante transferencia de aprendizaje (por ejemplo, MobileNet y ResNet); evaluación comparativa con exactitud, precisión, sensibilidad, F1-score y matriz de confusión; y despliegue de un prototipo web o móvil que permita cargar una imagen y obtener un diagnóstico automático.',
+      'Impactos potenciales: reducción de pérdidas de cosecha por diagnóstico tardío, uso racional de agroquímicos y fortalecimiento de la capacidad tecnológica de los productores, en coherencia con los ODS 2 y 9.'
+    ],
+    general: 'Desarrollar y validar un modelo de red neuronal convolucional para la clasificación automática de enfermedades foliares en cultivos de café a partir de imágenes digitales de hojas, capaz de discriminar entre cuatro afecciones (roya, mancha de hierro, minador y phoma) y la condición sana, alcanzando niveles de desempeño acordes con los criterios de aceptación definidos para el proyecto.',
+    specific: []
+  },
+  {
+    n: 7, s: '18:40', e: '18:55', line: 'TA', accent: '#E8A200', accent2: '#FFCB4D',
+    title: 'Detección y trazabilidad de dependencias emergentes en proyectos de tecnologías de información mediante inteligencia artificial para el análisis de su impacto en entregables',
+    authors: [['Miguel Angel Castañeda Zambrano', true]],
+    meet: '2026-10-16', versions: 1,
+    resumen: [
+      'Los proyectos de tecnologías de información pueden presentar dependencias que surgen, cambian o adquieren relevancia durante la ejecución, mientras la información que permite comprenderlas queda distribuida entre reuniones, correos, actas y herramientas de gestión. Esto dificulta mantener una trazabilidad actualizada, reconstruir el contexto de las relaciones y comprender cómo una dependencia puede conectarse con otras y llegar a afectar hitos o entregables.',
+      'La investigación propone evaluar el uso de inteligencia artificial para identificar dependencias emergentes a partir de información no estructurada, relacionarlas con dependencias previamente conocidas y mantener una trazabilidad verificable respecto de la evidencia que las sustenta. Se busca además generar evidencia sobre la capacidad y las limitaciones de estos sistemas para construir y mantener relaciones trazables sobre información que evoluciona en el tiempo.'
+    ],
+    general: 'Evaluar la capacidad de un sistema de inteligencia artificial para construir y mantener una trazabilidad actualizada y verificable de dependencias emergentes a partir de información no estructurada generada durante proyectos de tecnologías de información.',
+    specific: [
+      'Caracterizar las dependencias emergentes en proyectos de tecnologías de información mediante la identificación de sus atributos y de la evidencia no estructurada que permite reconocerlas durante la ejecución.',
+      'Establecer, mediante inteligencia artificial, relaciones de trazabilidad entre dependencias conocidas y emergentes a partir de información no estructurada, con referencia a la evidencia que sustenta cada relación.',
+      'Analizar la propagación de las relaciones entre dependencias conocidas y emergentes hasta hitos o entregables del proyecto.',
+      'Evaluar la actualización y verificabilidad de la trazabilidad generada ante nueva información y respecto de la evidencia de referencia.'
+    ]
+  },
+  {
+    n: 8, s: '18:55', e: '19:10', line: 'TA', accent: '#E03E3E', accent2: '#FF7A7A',
+    title: 'Clasificación de casos clínicos de dengue en los grupos de manejo de la guía de la OPS mediante procesamiento de lenguaje natural',
+    authors: [['Luisa Fernanda Yepes Espinosa', true]],
+    meet: '2026-10-15', versions: 1,
+    resumen: [
+      'El dengue es un problema importante de salud pública en las Américas y en Colombia. Según las directrices de la OPS de 2022, el manejo de cada paciente depende de reconocer si tiene dengue sin signos de alarma, con signos de alarma o grave. Si un paciente con signos de alarma se clasifica en una categoría de menor gravedad, puede recibir un tratamiento inadecuado y empeorar.',
+      'Clasificar bien no es sencillo: los signos de alarma aparecen en distintos momentos de una enfermedad dinámica y, hasta donde se revisó, no se encontró un conjunto de casos validado por médicos para evaluar si un sistema automático clasifica de acuerdo con la guía.',
+      'Este trabajo evalúa en qué medida distintas técnicas de procesamiento de lenguaje natural (PLN) clasifican correctamente casos de dengue en esas categorías, comparando sus resultados con una referencia establecida por personal médico. Se construirá un conjunto de casos clínicos a partir de los registros de notificación de Datos Abiertos Colombia y se analizarán los errores, sobre todo los que asignen una categoría de menor gravedad que la de referencia.',
+      'Se espera conocer qué tan concordantes son estas técnicas con el criterio médico y aportar un conjunto de casos validados reutilizable.'
+    ],
+    general: 'Evaluar en qué medida tres técnicas de procesamiento de lenguaje natural, recuperación de la guía (RAG), razonamiento paso a paso y extracción seguida de reglas, clasifican correctamente casos clínicos de dengue en las categorías de gravedad (sin signos de alarma, con signos de alarma y grave) según las directrices de la OPS de 2022, comparando sus resultados con una clasificación de referencia validada por personal médico.',
+    specific: []
+  },
+  {
+    n: 9, s: '19:10', e: '19:25', line: 'TA', accent: '#0F8FBF', accent2: '#4CC5F0',
+    title: 'Evaluar el desempeño de modelos de aprendizaje automático supervisado para la estimación del riesgo de falla de interruptores en un horizonte de 90 días, a partir de registros históricos de mantenimiento',
+    authors: [['Alexandre Patiño Castaño', false], ['Yaneth Marcela Rodríguez Vinasco', true]],
+    meet: '2026-11-03', versions: 1,
+    resumen: [
+      'Los interruptores de alta tensión son activos críticos en los sistemas de transmisión eléctrica; su falla imprevista compromete la continuidad del servicio y genera altos costos operativos. Las empresas del sector enfrentan dificultades para anticipar estas fallas por la alta dependencia de mantenimientos preventivos basados en calendario y la adopción limitada de costosos sistemas de monitoreo por sensores, mientras los registros históricos de mantenimiento (CMMS) se subutilizan.',
+      'El objetivo es desarrollar un modelo predictivo basado en aprendizaje automático que permita anticipar el riesgo de falla de los interruptores utilizando de manera exclusiva los registros históricos de mantenimiento. La metodología es cuantitativa y computacional: depuración de las bases de datos, análisis exploratorio e ingeniería de características, y entrenamiento, ajuste y validación de modelos de clasificación.',
+      'Se espera apoyar la transición hacia un mantenimiento predictivo en una organización específica del sector eléctrico sin instalar nueva infraestructura de sensorización, fortaleciendo la confiabilidad y la seguridad del sistema de transmisión analizado.'
+    ],
+    general: 'Evaluar el desempeño de modelos de aprendizaje automático supervisado para estimar el riesgo de falla de interruptores de alta tensión en un horizonte de 90 días, a partir de registros históricos de mantenimiento, operación e inspección de una empresa de transmisión de energía eléctrica, entendiendo por falla cualquier evento que genere pérdida de función, indisponibilidad operativa o mantenimiento correctivo no programado.',
+    specific: [
+      'Caracterizar la calidad y disponibilidad de los datos históricos relacionados con los interruptores seleccionados.',
+      'Realizar un análisis exploratorio de los datos para la identificación de las variables temporales y de mantenimiento más relevantes de los registros históricos.',
+      'Comparar 3 diferentes modelos de aprendizaje supervisado para estimar el riesgo de falla.'
+    ]
+  }
+];
+
+/* Estructura completa de la agenda (proyectos referenciados por n) */
+const AGENDA = [
+  { kind: 'special', s: '17:00', e: '17:10', tag: 'BIENVENIDA', title: 'Instalación del I Coloquio de Investigación', desc: 'Apertura y presentación del encuentro académico.' },
+  ...PROJECTS.map(p => ({ kind: 'project', p })),
+  { kind: 'break', s: '19:25', e: '19:35', tag: '10 MINUTOS', title: 'Receso', desc: 'Espacio de transición.' },
+  { kind: 'dialogo', s: '19:35', e: '19:50', tag: 'DIÁLOGO ACADÉMICO', title: 'Reflexiones y retroalimentación', desc: 'Comentarios generales sobre los proyectos presentados.' },
+  { kind: 'special', s: '19:50', e: '20:00', tag: 'CIERRE', title: 'Conclusiones y cierre del I Coloquio de Investigación', desc: 'Agradecimientos y cierre del encuentro académico.' }
+];
+
+/* ---------- utilidades ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const initials = n => n.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+const fmt = t => { let [h, m] = t.split(':').map(Number); const ap = h >= 12 ? 'p. m.' : 'a. m.'; h = h % 12 || 12; return `${h}:${String(m).padStart(2, '0')}`; };
+const range = (s, e) => `${fmt(s)} – ${fmt(e)} ${Number(e.split(':')[0]) >= 12 ? 'p. m.' : 'a. m.'}`;
+const when = t => new Date(`${DAY}T${t}:00${TZ}`);
+const fdate = iso => new Date(iso + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }).replace('.', '');
+const LINE_NAME = { PIR: 'Producción investigativa relevante PIR', TA: 'Trabajo aplicado - proyecto de investigación' };
+
+/* ---------- render agenda ---------- */
+const agendaEl = $('#agenda');
+agendaEl.innerHTML = AGENDA.map(it => {
+  if (it.kind === 'project') {
+    const p = it.p;
+    const people = p.authors.map(([n]) => `<span class="person"><span class="avatar">${esc(initials(n))}</span>${esc(n)}</span>`).join('');
+    const specific = p.specific.length
+      ? `<div class="sub">Objetivos específicos</div><ol>${p.specific.map(o => `<li>${esc(o)}</li>`).join('')}</ol>`
+      : `<p class="note">Este anteproyecto presenta únicamente el objetivo general.</p>`;
+    const kw = p.keywords ? `<p class="note"><b>Palabras clave:</b> ${esc(p.keywords)}</p>` : '';
+    const note = p.note ? `<p class="note">${esc(p.note)}</p>` : '';
+    return `
+    <article class="agenda-item project" id="p${p.n}" data-line="${p.line}" data-n="${p.n}"
+             style="--accent:${p.accent};--accent2:${p.accent2}"
+             data-start="${p.s}" data-end="${p.e}"
+             data-search="${esc((p.title + ' ' + p.authors.map(a => a[0]).join(' ')).toLowerCase())}">
+      <div class="agenda-time">${range(p.s, p.e)}</div>
+      <div class="agenda-content">
+        <button class="head" aria-expanded="false" aria-controls="panel${p.n}">
+          <div class="number">PROYECTO ${String(p.n).padStart(2, '0')}
+            <span class="tag ${p.line.toLowerCase()}">${p.line === 'PIR' ? 'PIR' : 'Trabajo aplicado'}</span>
+          </div>
+          <h3>${esc(p.title)}</h3>
+          <div class="authors">${people}</div>
+          <div class="hint"><span class="t-open">▸ Ver resumen y objetivos</span><span class="t-close">▾ Ocultar detalles</span></div>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="panel" id="panel${p.n}" role="region">
+          <div class="panel-inner">
+            <div class="panel-body">
+              <div>
+                <h4>Resumen</h4>
+                ${p.resumen.map(t => `<p>${esc(t)}</p>`).join('')}
+                ${kw}${note}
+              </div>
+              <div>
+                <h4>Objetivos de la propuesta</h4>
+                <div class="sub" style="margin-top:0">Objetivo general</div>
+                <p class="gen">${esc(p.general)}</p>
+                ${specific}
+              </div>
+              <div class="meta-row">
+                <span class="meta-chip"><b>Línea:</b> ${esc(LINE_NAME[p.line])}</span>
+                <span class="meta-chip"><b>Participantes:</b> ${p.authors.length}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }
+  const cls = it.kind === 'break' ? 'break' : it.kind === 'dialogo' ? 'dialogo' : 'special';
+  return `
+    <article class="agenda-item ${cls}" data-fixed="1" data-start="${it.s}" data-end="${it.e}">
+      <div class="agenda-time">${range(it.s, it.e)}</div>
+      <div class="agenda-content plain-head">
+        <div class="number">${esc(it.tag)}</div>
+        <h3>${esc(it.title)}</h3>
+        <p class="line">${esc(it.desc)}</p>
+      </div>
+    </article>`;
+}).join('');
+
+/* ---------- acordeón ---------- */
+function setOpen(card, open) {
+  card.classList.toggle('open', open);
+  const b = $('.head', card); if (b) b.setAttribute('aria-expanded', open);
+}
+agendaEl.addEventListener('click', e => {
+  const head = e.target.closest('.head'); if (!head) return;
+  const card = head.closest('.agenda-item');
+  setOpen(card, !card.classList.contains('open'));
+  history.replaceState(null, '', card.classList.contains('open') ? '#' + card.id : location.pathname + location.search);
+});
+$('#expand').onclick = () => document.querySelectorAll('.project:not(.hidden)').forEach(c => setOpen(c, true));
+$('#collapse').onclick = () => document.querySelectorAll('.project').forEach(c => setOpen(c, false));
+
+function openProject(n, scroll = true) {
+  const c = $('#p' + n); if (!c) return;
+  c.classList.remove('hidden');
+  setOpen(c, true);
+  if (scroll) setTimeout(() => c.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+}
+
+/* ---------- búsqueda y filtros ---------- */
+let filter = 'all';
+function applyFilters() {
+  const q = $('#q').value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('.project').forEach(c => {
+    const ok = (filter === 'all' || c.dataset.line === filter) && (!q || c.dataset.search.includes(q));
+    c.classList.toggle('hidden', !ok);
+    if (ok) shown++;
+  });
+  const filtering = q || filter !== 'all';
+  document.querySelectorAll('[data-fixed]').forEach(c => c.classList.toggle('hidden', !!filtering));
+  $('#empty').style.display = shown ? 'none' : 'block';
+}
+$('#q').addEventListener('input', applyFilters);
+$('#filters').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  document.querySelectorAll('#filters .chip').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); filter = b.dataset.f; applyFilters();
+});
+
+/* ---------- participantes / seguimiento ---------- */
+const peopleHTML = [];
+PROJECTS.forEach(p => p.authors.forEach(([name, reg]) => {
+  peopleHTML.push(`
+  <button class="pcard" style="--accent:${p.accent}" data-n="${p.n}">
+    <span class="avatar" style="background:${p.accent}">${esc(initials(name))}</span>
+    <span>
+      <h5>${esc(name)}</h5>
+      <div class="pj">Proyecto ${String(p.n).padStart(2, '0')} · ${p.line === 'PIR' ? 'PIR' : 'Trabajo aplicado'}</div>
+      <div class="pt">${esc(p.title)}</div>
+    </span>
+  </button>`);
+}));
+$('#people').innerHTML = peopleHTML.join('');
+$('#people').addEventListener('click', e => {
+  const c = e.target.closest('.pcard'); if (!c) return;
+  $('#q').value = ''; filter = 'all';
+  document.querySelectorAll('#filters .chip').forEach(x => x.classList.toggle('active', x.dataset.f === 'all'));
+  applyFilters(); openProject(c.dataset.n);
+});
+
+/* ---------- estadísticas ---------- */
+const totalPeople = PROJECTS.reduce((a, p) => a + p.authors.length, 0);
+const pirCount = PROJECTS.filter(p => p.line === 'PIR').length;
+$('#stats').innerHTML = [
+  [PROJECTS.length, 'proyectos', '#1E88E5'],
+  [totalPeople, 'participantes', '#D6336C'],
+  [pirCount, 'producción investigativa (PIR)', '#F26B38'],
+  [PROJECTS.length - pirCount, 'trabajos aplicados', '#00A19B']
+].map(([n, l, c]) => `<div class="stat" style="--c:${c}"><b>${n}</b><span>${l}</span></div>`).join('');
+
+/* ---------- cuenta regresiva y sesión en vivo ---------- */
+const START = when('17:00'), END = when('20:00');
+const pad = n => String(n).padStart(2, '0');
+function tick() {
+  const now = new Date();
+  const boxes = document.querySelectorAll('.cd-box');
+  if (now < START) {
+    let s = Math.floor((START - now) / 1000);
+    $('#cd-d').textContent = Math.floor(s / 86400); s %= 86400;
+    $('#cd-h').textContent = pad(Math.floor(s / 3600)); s %= 3600;
+    $('#cd-m').textContent = pad(Math.floor(s / 60));
+    $('#cd-s').textContent = pad(s % 60);
+  } else {
+    boxes.forEach(b => b.style.display = 'none');
+    $(now < END ? '#cd-live' : '#cd-done').style.display = now < END ? 'flex' : 'block';
+  }
+  document.querySelectorAll('.agenda-item[data-start]').forEach(c => {
+    c.classList.toggle('live', now >= when(c.dataset.start) && now < when(c.dataset.end));
+  });
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- enlace directo #pN ---------- */
+const m = location.hash.match(/^#p(\d+)$/);
+if (m) openProject(m[1]);
+</script>
+</body>
+</html>
